@@ -9,7 +9,7 @@ import Models exposing (..)
 
 import Coaches.List exposing (..)
 import Coaches.Edit exposing (..)
-import Coaches.Models exposing (CoachId)
+import Coaches.Models exposing (CoachId, Coach, newCoach)
 
 
 import Routing
@@ -29,6 +29,9 @@ page address model =
     Routing.CoachesRoute ->
       coachesPage address model
 
+    Routing.CoachNewRoute ->
+      coachNewPage address
+
     Routing.CoachEditRoute coachId ->
       coachEditPage address model coachId
 
@@ -45,6 +48,17 @@ coachesPage address model =
       }
   in
     Coaches.List.view (Signal.forwardTo address CoachesAction) viewModel
+
+
+coachNewPage : Signal.Address Action -> Html.Html
+coachNewPage address =
+  let
+    viewModel =
+      {
+        coach = newCoach
+      }
+  in
+    Coaches.Edit.view (Signal.forwardTo address CoachesAction) viewModel
 
 
 coachEditPage : Signal.Address Action -> AppModel -> CoachId -> Html.Html

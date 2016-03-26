@@ -14,3 +14,6 @@ type Action =
   | EditCoach CoachId
   | ListCoaches
   | FetchAllDone (Result Http.Error (List Coach))
+  | CreateNewCoach
+  | CreateCoach
+  | CreateCoachDone (Result Http.Error Coach)

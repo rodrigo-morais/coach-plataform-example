@@ -16,8 +16,8 @@ type alias Coach =
   }
 
 
-new : Coach
-new =
+newCoach : Coach
+newCoach =
   {
     id = 0,
     name = "",

@@ -9,11 +9,12 @@ import Hop.Navigate exposing (navigateTo)
 import Hop.Matchers exposing (match1, match2, match3, int)
 
 
-import Coaches.Models exposing (CoachId)
+import Coaches.Models exposing (CoachId, Coach)
 
 
 type Route =
   CoachesRoute
+  | CoachNewRoute
   | CoachEditRoute CoachId
   | NotFoundRoute
 
@@ -62,6 +63,11 @@ coachesMatcher =
   match1 CoachesRoute "/coaches"
 
 
+coachNewMatcher : PathMatcher Route
+coachNewMatcher =
+  match1 CoachNewRoute "/coaches/new"
+
+
 coachEditMatch : PathMatcher Route
 coachEditMatch =
   match3 CoachEditRoute "/coaches/" int "/edit"
@@ -72,7 +78,8 @@ matchers =
   [
     indexMatcher,
     coachesMatcher,
-    coachEditMatch
+    coachEditMatch,
+    coachNewMatcher
   ]
 
 
