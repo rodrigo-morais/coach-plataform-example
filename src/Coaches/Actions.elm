@@ -17,3 +17,4 @@ type Action =
   | CreateNewCoach
   | CreateCoach
   | CreateCoachDone (Result Http.Error Coach)
+  | TaskDone ()

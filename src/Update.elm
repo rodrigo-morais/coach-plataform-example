@@ -6,6 +6,7 @@ import Effects exposing (Effects)
 
 import Actions exposing (..)
 import Models exposing (..)
+import Mailboxes exposing (..)
 
 
 import Coaches.Update exposing (..)
@@ -21,7 +22,8 @@ update action model =
       let
         updateModel =
           {
-            coaches = model.coaches
+            coaches = model.coaches,
+            showErrorAddress = Signal.forwardTo actionsMailbox.address ShowError
           }
 
         (updatedCoaches, fx) =
@@ -40,3 +42,6 @@ update action model =
 
       in
         ({ model | routing = updatedRouting }, Effects.map  RoutingAction fx)
+
+    ShowError message ->
+      ( { model | errorMessage = message }, Effects.none )

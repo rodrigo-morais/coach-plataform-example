@@ -13,7 +13,8 @@ import Coaches.Effects exposing (..)
 
 type alias UpdateModel =
   {
-    coaches : List Coach
+    coaches : List Coach,
+    showErrorAddress : Signal.Address String
   }
 
 
@@ -48,7 +49,21 @@ update action model =
           (coaches, Effects.none)
 
         Err error ->
-          (model.coaches, Effects.none)
+          let
+            errorMessage =
+              toString error
+
+            fx =
+              Signal.send model.showErrorAddress errorMessage
+                |> Effects.task
+                |> Effects.map TaskDone
+          in
+            ( model.coaches, fx )
+
+
+    TaskDone () ->
+      ( model.coaches, Effects.none )
+
 
     CreateCoach ->
       (model.coaches, create newCoach)

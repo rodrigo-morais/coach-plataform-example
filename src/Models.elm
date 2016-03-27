@@ -10,7 +10,8 @@ import Routing
 type alias AppModel =
   {
     coaches : List Coach,
-    routing : Routing.Model
+    routing : Routing.Model,
+    errorMessage : String
   }
 
 
@@ -18,5 +19,6 @@ initialModel : AppModel
 initialModel =
   {
     coaches = [ ],
-    routing = Routing.initialModel
+    routing = Routing.initialModel,
+    errorMessage = ""
   }

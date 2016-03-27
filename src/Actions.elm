@@ -9,3 +9,4 @@ type Action =
   NoOp
   | CoachesAction Coaches.Actions.Action
   | RoutingAction Routing.Action
+  | ShowError String

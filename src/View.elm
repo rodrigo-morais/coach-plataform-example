@@ -2,6 +2,8 @@ module View (..) where
 
 
 import Html exposing (..)
+import Html.Attributes exposing (class)
+
 
 import Actions exposing (..)
 import Models exposing (..)
@@ -15,12 +17,25 @@ import Coaches.Models exposing (CoachId, Coach, newCoach)
 import Routing
 
 
+import String
+
+
 view : Signal.Address Action -> AppModel -> Html.Html
 view address model =
   div [ ]
       [
+        flash address model,
         page address model
       ]
+
+
+flash : Signal.Address Action -> AppModel -> Html
+flash address model =
+  if String.isEmpty model.errorMessage then
+    span [ ] [ ]
+  else
+    div [ class "bold center p2 mb2 white bg-red rounded" ]
+        [ text model.errorMessage ]
 
 
 page : Signal.Address Action -> AppModel -> Html.Html

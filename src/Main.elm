@@ -11,6 +11,7 @@ import Actions exposing (..)
 import Models exposing (..)
 import Update exposing (..)
 import View exposing (..)
+import Mailboxes exposing (..)
 
 
 import Routing
@@ -45,7 +46,7 @@ app =
   StartApp.start
   {
     init = init,
-    inputs = [ routerSignal ],
+    inputs = [ routerSignal, actionsMailbox.signal ],
     update = update,
     view = view
   }
