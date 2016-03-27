@@ -115,5 +115,5 @@ addBtn address model =
           [
             i [ class "fa fa-user-plus mr1" ] 
               [ ],
-            text "Add player"
+            text "Add coach"
           ]

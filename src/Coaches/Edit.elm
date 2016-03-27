@@ -30,9 +30,12 @@ view address model =
 
 nav : Signal.Address Action -> ViewModel -> Html.Html
 nav address model =
-  div [ class "clearfix mb2 white bg-black p1" ]
+  div [ class "clearfix mb2 white bg-black" ]
       [
-        listBtn address model
+        div [ class "left p1" ]
+            [ listBtn address model ],
+        div [ class "right p1" ]
+            [ saveBtn address model ]
       ]
 
 
@@ -174,4 +177,14 @@ listBtn address model =
             i [ class "fa fa-chevron-left mr1" ]
               [],
             text "List"
+          ]
+
+
+saveBtn : Signal.Address Action -> ViewModel -> Html.Html
+saveBtn address model =
+  button  [ class "btn regular" ]
+          [
+            i [ class "fa fa-floppy-o mr1" ] 
+              [ ],
+            text "Save coach"
           ]
