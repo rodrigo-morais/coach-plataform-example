@@ -65,8 +65,24 @@ update action model =
       ( model.coaches, Effects.none )
 
 
-    CreateCoach ->
-      (model.coaches, create newCoach)
+    CreateCoach newCoach ->
+      let
+        fxForCoach coach =
+          if coach.id /= newCoach.id then
+            Effects.none
+          else
+            let
+              updatedCoach =
+                newCoach
+            in
+              create updatedCoach
+
+        fx =
+          List.map fxForCoach model.coaches
+          |> Effects.batch
+      in
+        ( model.coaches, fx )
+
 
     CreateNewCoach ->
       let
@@ -76,18 +92,16 @@ update action model =
       in
         (model.coaches, Effects.map HopAction (navigateTo path))
 
+
     CreateCoachDone result ->
       case result of
         Ok coach ->
           let
-            updatedCollection =
-              coach :: model.coaches
-
             fx =
-              Task.succeed (EditCoach coach.id)
-                |> Effects.task
+              Task.succeed ListCoaches
+              |> Effects.task
           in
-            ( updatedCollection, fx )
+            ( model.coaches, fx )
 
         Err error ->
           let

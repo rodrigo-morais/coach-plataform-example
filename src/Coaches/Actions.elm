@@ -15,6 +15,6 @@ type Action =
   | ListCoaches
   | FetchAllDone (Result Http.Error (List Coach))
   | CreateNewCoach
-  | CreateCoach
+  | CreateCoach Coach
   | CreateCoachDone (Result Http.Error Coach)
   | TaskDone ()

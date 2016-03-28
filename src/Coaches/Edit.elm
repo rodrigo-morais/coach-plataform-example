@@ -182,7 +182,10 @@ listBtn address model =
 
 saveBtn : Signal.Address Action -> ViewModel -> Html.Html
 saveBtn address model =
-  button  [ class "btn regular" ]
+  button  [
+            class "btn regular",
+            onClick address (CreateCoach model.coach)
+          ]
           [
             i [ class "fa fa-floppy-o mr1" ] 
               [ ],
