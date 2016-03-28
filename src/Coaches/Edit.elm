@@ -182,12 +182,21 @@ listBtn address model =
 
 saveBtn : Signal.Address Action -> ViewModel -> Html.Html
 saveBtn address model =
-  button  [
-            class "btn regular",
-            onClick address (CreateCoach model.coach)
-          ]
-          [
-            i [ class "fa fa-floppy-o mr1" ] 
-              [ ],
-            text "Save coach"
-          ]
+  let
+    saveEvent =
+      if model.coach.id == 0 then
+        CreateCoach
+      else
+        SaveCoach
+
+
+  in
+    button  [
+              class "btn regular",
+              onClick address (saveEvent model.coach)
+            ]
+            [
+              i [ class "fa fa-floppy-o mr1" ] 
+                [ ],
+              text "Save coach"
+            ]

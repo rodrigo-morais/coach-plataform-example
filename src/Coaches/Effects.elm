@@ -24,19 +24,32 @@ fetchAllUrl =
   "http://localhost:4000/coaches"
 
 
-create : Coach -> Effects Action
-create coach =
+save : Coach -> Effects Action
+save coach =
   let
     body =
       memberEncoded coach
         |> Encode.encode 0
         |> Http.string
 
+    verb =
+      if coach.id == 0 then
+        "POST"
+      else
+        "PATCH"
+
+
+    url =
+      if coach.id == 0 then
+        saveUrl
+      else
+        saveUrl ++ "/" ++ (toString coach.id)
+
     config =
       {
-        verb = "POST",
+        verb = verb,
         headers = [ ( "Content-Type", "application/json" ) ],
-        url = createUrl,
+        url = url,
         body = body
       }
   in
@@ -47,8 +60,8 @@ create coach =
       |> Effects.task
 
 
-createUrl : String
-createUrl =
+saveUrl : String
+saveUrl =
   "http://localhost:4000/coaches"
 
 

@@ -65,7 +65,7 @@ update action model =
       ( model.coaches, Effects.none )
 
 
-    CreateCoach newCoach ->
+    SaveCoach newCoach ->
       let
         fxForCoach coach =
           if coach.id /= newCoach.id then
@@ -75,13 +75,17 @@ update action model =
               updatedCoach =
                 newCoach
             in
-              create updatedCoach
+              save updatedCoach
 
         fx =
           List.map fxForCoach model.coaches
           |> Effects.batch
       in
         ( model.coaches, fx )
+
+
+    CreateCoach newCoach ->
+      (model.coaches, save newCoach)
 
 
     CreateNewCoach ->
