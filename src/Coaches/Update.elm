@@ -97,15 +97,30 @@ update action model =
         (model.coaches, Effects.map HopAction (navigateTo path))
 
 
-    CreateCoachDone result ->
+    CoachDone result ->
       case result of
-        Ok coach ->
+        Ok savedCoach ->
           let
+            updatedCoaches =
+              let
+                maybeCoach =
+                  List.filter (\coach -> coach.id == savedCoach.id) model.coaches
+                  |> List.head
+
+              in
+                case maybeCoach of
+                  Just coach ->
+                    model.coaches
+
+                  Nothing ->
+                    model.coaches ++ [ savedCoach ]
+
+
             fx =
               Task.succeed ListCoaches
               |> Effects.task
           in
-            ( model.coaches, fx )
+            ( updatedCoaches, fx )
 
         Err error ->
           let

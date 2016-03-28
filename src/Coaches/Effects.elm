@@ -56,7 +56,7 @@ save coach =
     Http.send Http.defaultSettings config
       |> Http.fromJson memberDecoder
       |> Task.toResult
-      |> Task.map CreateCoachDone
+      |> Task.map CoachDone
       |> Effects.task
 
 
