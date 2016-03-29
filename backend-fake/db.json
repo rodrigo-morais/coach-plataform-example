@@ -13,8 +13,8 @@
       "id": 2,
       "name": "Uncle Bob",
       "spots": 1,
-      "mentor": true,
-      "coach": false,
+      "mentor": false,
+      "coach": true,
       "capabilities": "Design, Java",
       "description": "Desc 2"
     },

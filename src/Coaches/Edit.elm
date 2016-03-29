@@ -2,8 +2,8 @@ module Coaches.Edit (..) where
 
 
 import Html exposing (..)
-import Html.Attributes exposing (class, value, href, placeholder, cols, rows)
-import Html.Events exposing (onClick, targetValue, on)
+import Html.Attributes exposing (class, value, href, placeholder, cols, rows, type', checked)
+import Html.Events exposing (onClick, targetValue, on, targetChecked)
 
 
 import String
@@ -55,6 +55,7 @@ form address model =
               [ text name ],
           formSpot address model,
           formName address model,
+          formTypes address model,
           formCapabilities address model,
           formDescription address model
         ]
@@ -109,6 +110,38 @@ formName address model =
         div [ class "col col-9" ]
             [
               inputName address model
+            ]
+      ]
+
+
+formTypes : Signal.Address Action -> ViewModel -> Html.Html
+formTypes address model =
+  div [ class "clearfix py1" ]
+      [
+        div [ class "col col-3" ]
+            [ text "Types" ],
+        div [ class "col col-9" ]
+            [
+              div [ class "p1" ]
+                  [
+                    input [
+                            type' "checkbox",
+                            checked model.coach.mentor,
+                            on "change" targetChecked (\isMentor -> Signal.message address (ChangeMentorType model.coach isMentor))
+                          ]
+                          [ ],
+                    text "Mentor"
+                  ],
+              div [ class "p1" ]
+                  [
+                    input [
+                            type' "checkbox",
+                            checked model.coach.coach,
+                            on "change" targetChecked (\isCoach -> Signal.message address (ChangeCoachType model.coach isCoach))
+                          ]
+                          [ ],
+                    text "Coach"
+                  ]
             ]
       ]
 

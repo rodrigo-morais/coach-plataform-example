@@ -25,3 +25,5 @@ type Action =
   | ChangeName Coach String
   | ChangeCapabilities Coach String
   | ChangeDescription Coach String
+  | ChangeMentorType Coach Bool
+  | ChangeCoachType Coach Bool

@@ -211,3 +211,31 @@ update action model =
           List.map updateCoach model.coaches
       in
         ( updatedCoach, Effects.none )
+
+
+    ChangeMentorType coach isMentor ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | mentor = isMentor }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+      in
+        ( updatedCoach, Effects.none )
+
+
+    ChangeCoachType coach isCoach ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | coach = isCoach }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+      in
+        ( updatedCoach, Effects.none )
