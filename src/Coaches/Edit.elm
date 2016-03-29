@@ -178,7 +178,7 @@ listBtn : Signal.Address Action -> ViewModel -> Html.Html
 listBtn address model =
   button  [
             class "btn regular",
-            onClick address ListCoaches
+            onClick address ReturnToListCoaches
           ]
           [
             i [ class "fa fa-chevron-left mr1" ]

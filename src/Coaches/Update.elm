@@ -38,11 +38,33 @@ update action model =
         path =
           "/coaches"
 
+
       in
         (model.coaches, Effects.map HopAction (navigateTo path))
 
+
+    ReturnToListCoaches ->
+      let
+        fx =
+          Task.succeed ListCoaches
+          |> Effects.task
+
+
+        updateCoaches =
+          List.filter (\coach -> coach.id /= 0) model.coaches
+
+
+        updatedCoaches =
+          { model | coaches = updateCoaches }
+
+
+      in
+        (updatedCoaches.coaches, fx)
+
+
     HopAction _ ->
       (model.coaches, Effects.none)
+
 
     FetchAllDone result ->
       case result of

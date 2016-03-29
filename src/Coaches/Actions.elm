@@ -13,6 +13,7 @@ type Action =
   | HopAction ()
   | EditCoach CoachId
   | ListCoaches
+  | ReturnToListCoaches
   | FetchAllDone (Result Http.Error (List Coach))
   | SaveCoach Coach
   | CreateNewCoach
