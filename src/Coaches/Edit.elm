@@ -3,7 +3,7 @@ module Coaches.Edit (..) where
 
 import Html exposing (..)
 import Html.Attributes exposing (class, value, href, placeholder, cols, rows)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, targetValue, on)
 
 
 import String
@@ -78,7 +78,10 @@ formSpot address model =
 
 btnSpotDecrease : Signal.Address Action -> ViewModel -> Html.Html
 btnSpotDecrease address model =
-  a [ class "btn ml0 h1" ]
+  a [
+      class "btn ml0 h1",
+      onClick address (DecreaseSpot model.coach)
+    ]
     [
       i [ class "fa fa-minus-circle" ]
         [ ]
@@ -88,7 +91,8 @@ btnSpotDecrease address model =
 btnSpotIncrease : Signal.Address Action -> ViewModel -> Html.Html
 btnSpotIncrease address model =
   a [
-      class "btn ml0 h1"
+      class "btn ml0 h1",
+      onClick address (IncreaseSpot model.coach)
     ]
     [
       i [ class "fa fa-plus-circle" ]
@@ -114,7 +118,8 @@ inputName address model =
   input [
           class "field-light",
           value model.coach.name,
-          placeholder "New coach"
+          placeholder "New coach",
+          on "change" targetValue (\name -> Signal.message address (ChangeName model.coach name))
         ]
         [ ]
 
@@ -137,7 +142,8 @@ inputCapabilities address model =
   input [
           class "field-light col col-12",
           value model.coach.capabilities,
-          placeholder "Fill the capabilities of coach"
+          placeholder "Fill the capabilities of coach",
+          on "change" targetValue (\capabilities -> Signal.message address (ChangeCapabilities model.coach capabilities))
         ]
         [ ]
 
@@ -162,7 +168,8 @@ inputDescription address model =
               value model.coach.description,
               placeholder "Fill the description of coach",
               cols 12,
-              rows 5
+              rows 5,
+              on "change" targetValue (\description -> Signal.message address (ChangeDescription model.coach description))
             ]
             [ ]
 

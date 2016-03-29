@@ -45,10 +45,10 @@ page address model =
       coachesPage address model
 
     Routing.CoachNewRoute ->
-      coachNewPage address
+      coachPage address model 0
 
     Routing.CoachEditRoute coachId ->
-      coachEditPage address model coachId
+      coachPage address model coachId
 
     Routing.NotFoundRoute ->
       notFoundView
@@ -65,19 +65,8 @@ coachesPage address model =
     Coaches.List.view (Signal.forwardTo address CoachesAction) viewModel
 
 
-coachNewPage : Signal.Address Action -> Html.Html
-coachNewPage address =
-  let
-    viewModel =
-      {
-        coach = newCoach
-      }
-  in
-    Coaches.Edit.view (Signal.forwardTo address CoachesAction) viewModel
-
-
-coachEditPage : Signal.Address Action -> AppModel -> CoachId -> Html.Html
-coachEditPage address model coachId =
+coachPage : Signal.Address Action -> AppModel -> CoachId -> Html.Html
+coachPage address model coachId =
   let
     maybeCoach =
       model.coaches

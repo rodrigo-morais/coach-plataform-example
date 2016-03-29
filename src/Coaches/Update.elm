@@ -29,6 +29,7 @@ update action model =
         path =
           "/coaches/" ++ (toString id) ++ "/edit"
 
+
       in
         (model.coaches, Effects.map HopAction (navigateTo path))
 
@@ -93,34 +94,23 @@ update action model =
         path =
           "/coaches/new"
 
+
+        updatedCoach =
+          newCoach :: model.coaches
+
       in
-        (model.coaches, Effects.map HopAction (navigateTo path))
+        (updatedCoach, Effects.map HopAction (navigateTo path))
 
 
     CoachDone result ->
       case result of
         Ok savedCoach ->
           let
-            updatedCoaches =
-              let
-                maybeCoach =
-                  List.filter (\coach -> coach.id == savedCoach.id) model.coaches
-                  |> List.head
-
-              in
-                case maybeCoach of
-                  Just coach ->
-                    model.coaches
-
-                  Nothing ->
-                    model.coaches ++ [ savedCoach ]
-
-
             fx =
               Task.succeed ListCoaches
               |> Effects.task
           in
-            ( updatedCoaches, fx )
+            ( model.coaches, fx )
 
         Err error ->
           let
@@ -128,3 +118,74 @@ update action model =
               toString error
           in
             ( model.coaches, Effects.none )
+
+
+    IncreaseSpot coach ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | spots = existing.spots + 1 }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+            
+      in
+        ( updatedCoach, Effects.none )
+
+
+    DecreaseSpot coach ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | spots = existing.spots - 1 }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+      in
+        ( updatedCoach, Effects.none )
+
+
+    ChangeName coach name ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | name = name }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+      in
+        ( updatedCoach, Effects.none )
+
+
+    ChangeCapabilities coach capabilities ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | capabilities = capabilities }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+      in
+        ( updatedCoach, Effects.none )
+
+
+    ChangeDescription coach description ->
+      let
+        updateCoach existing =
+          if existing.id /= coach.id then
+            existing
+          else
+            { existing | description = description }
+
+        updatedCoach =
+          List.map updateCoach model.coaches
+      in
+        ( updatedCoach, Effects.none )

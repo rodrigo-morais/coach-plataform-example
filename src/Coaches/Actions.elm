@@ -19,3 +19,8 @@ type Action =
   | CreateCoach Coach
   | CoachDone (Result Http.Error Coach)
   | TaskDone ()
+  | IncreaseSpot Coach
+  | DecreaseSpot Coach
+  | ChangeName Coach String
+  | ChangeCapabilities Coach String
+  | ChangeDescription Coach String
