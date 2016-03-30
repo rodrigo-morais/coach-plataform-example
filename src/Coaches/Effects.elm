@@ -78,8 +78,8 @@ memberDecoder =
     ("id" := Decode.int)
     ("name" := Decode.string)
     ("spots" := Decode.int)
-    ("mentor" := Decode.bool)
     ("coach" := Decode.bool)
+    ("mentor" := Decode.bool)
     ("capabilities" := Decode.string)
     ("description" := Decode.string)
 
