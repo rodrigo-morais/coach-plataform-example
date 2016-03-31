@@ -57,15 +57,33 @@ update action model =
 
 
         updateCoaches =
-          List.filter (\coach -> coach.id /= 0) model.coaches
+          List.filter (\coach -> coach.id /= 0 ) model.coaches
 
 
         updatedCoaches =
           { model | coaches = updateCoaches }
 
 
+        getModels =
+          let
+            hasInvalid =
+              List.filter (\coach -> String.isEmpty coach.name ) model.coaches
+              |> List.length
+
+
+            models =
+              if hasInvalid > 0 then
+                model.coaches
+              else
+                updatedCoaches.coaches
+
+
+          in
+            models
+
+
       in
-        (updatedCoaches.coaches, fx)
+        (getModels, fx)
 
 
     HopAction _ ->
@@ -94,6 +112,18 @@ update action model =
       ( model.coaches, Effects.none )
 
 
+    ShowEditError message ->
+      let
+        fx =
+          Signal.send model.showErrorAddress message
+            |> Effects.task
+            |> Effects.map TaskDone
+
+
+      in
+        (model.coaches, fx)
+
+
     SaveCoach newCoach ->
       let
         fxForCoach coach =
@@ -107,30 +137,14 @@ update action model =
               save updatedCoach
 
         fx =
-          if String.isEmpty newCoach.name then
-            Signal.send model.showErrorAddress "The field 'Name' couldn't be blank."
-            |> Effects.task
-            |> Effects.map TaskDone
-          else
-            List.map fxForCoach model.coaches
-            |> Effects.batch
+          List.map fxForCoach model.coaches
+          |> Effects.batch
       in
         ( model.coaches, fx )
 
 
     CreateCoach newCoach ->
-      let
-        fx =
-          if String.isEmpty newCoach.name then
-            Signal.send model.showErrorAddress "The field 'Name' couldn't be blank."
-            |> Effects.task
-            |> Effects.map TaskDone
-          else
-            save newCoach
-
-
-      in
-        (model.coaches, fx)
+      (model.coaches, save newCoach)
 
 
     CreateNewCoach ->
@@ -195,6 +209,13 @@ update action model =
 
     ChangeName coach name ->
       let
+        isValid =
+          if String.isEmpty name then
+            False
+          else
+            True
+
+
         updateCoach existing =
           if existing.id /= coach.id then
             existing

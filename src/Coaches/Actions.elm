@@ -15,6 +15,7 @@ type Action =
   | ListCoaches
   | ReturnToListCoaches
   | FetchAllDone (Result Http.Error (List Coach))
+  | ShowEditError String
   | SaveCoach Coach
   | CreateNewCoach
   | CreateCoach Coach

@@ -19,6 +19,11 @@ type alias ViewModel =
   }
 
 
+isValid : Coach -> Bool
+isValid coach =
+  False
+
+
 view : Signal.Address Action -> ViewModel -> Html.Html
 view address model =
   div []
@@ -241,16 +246,19 @@ saveBtn : Signal.Address Action -> ViewModel -> Html.Html
 saveBtn address model =
   let
     saveEvent =
-      if model.coach.id == 0 then
-        CreateCoach
+      if isValid model.coach then
+        if model.coach.id == 0 then
+          onClick address (CreateCoach model.coach)
+        else
+          onClick address (SaveCoach model.coach)
       else
-        SaveCoach
+        onClick address (ShowEditError "The field 'Name' couldn't be blank.")
 
 
   in
     button  [
               class "btn regular",
-              onClick address (saveEvent model.coach)
+              saveEvent
             ]
             [
               i [ class "fa fa-floppy-o mr1" ] 
