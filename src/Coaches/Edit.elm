@@ -103,15 +103,32 @@ btnSpotIncrease address model =
 
 formName : Signal.Address Action -> ViewModel -> Html.Html
 formName address model =
-  div [ class "clearfix py1" ]
-      [
-        div [ class "col col-3" ]
-            [ text "Name" ],
-        div [ class "col col-9" ]
-            [
-              inputName address model
-            ]
-      ]
+  let
+    class' =
+      if String.isEmpty model.coach.name then
+        "pr1 red bold h2"
+      else
+        "pr1 black bold h2"
+
+
+    nameLabel =
+        label [ class class']
+              [ text "*" ]
+
+
+  in
+    div [ class "clearfix py1" ]
+        [
+          div [ class "col col-3" ]
+              [
+                text "Name ",
+                nameLabel
+              ],
+          div [ class "col col-9" ]
+              [
+                inputName address model
+              ]
+        ]
 
 
 formTypes : Signal.Address Action -> ViewModel -> Html.Html

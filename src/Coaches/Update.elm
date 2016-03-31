@@ -4,6 +4,7 @@ module Coaches.Update (..) where
 import Effects exposing (Effects)
 import Hop.Navigate exposing (navigateTo)
 import Task
+import String
 
 
 import Coaches.Actions exposing (..)
@@ -33,14 +34,19 @@ update action model =
       in
         (model.coaches, Effects.map HopAction (navigateTo path))
 
+
     ListCoaches ->
       let
         path =
           "/coaches"
 
 
+        fx =
+          Effects.map HopAction (navigateTo path)
+          
+
       in
-        (model.coaches, Effects.map HopAction (navigateTo path))
+        (model.coaches, fx)
 
 
     ReturnToListCoaches ->
@@ -101,14 +107,30 @@ update action model =
               save updatedCoach
 
         fx =
-          List.map fxForCoach model.coaches
-          |> Effects.batch
+          if String.isEmpty newCoach.name then
+            Signal.send model.showErrorAddress "The field 'Name' couldn't be blank."
+            |> Effects.task
+            |> Effects.map TaskDone
+          else
+            List.map fxForCoach model.coaches
+            |> Effects.batch
       in
         ( model.coaches, fx )
 
 
     CreateCoach newCoach ->
-      (model.coaches, save newCoach)
+      let
+        fx =
+          if String.isEmpty newCoach.name then
+            Signal.send model.showErrorAddress "The field 'Name' couldn't be blank."
+            |> Effects.task
+            |> Effects.map TaskDone
+          else
+            save newCoach
+
+
+      in
+        (model.coaches, fx)
 
 
     CreateNewCoach ->
