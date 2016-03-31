@@ -73,7 +73,7 @@ update action model =
 
             models =
               if hasInvalid > 0 then
-                model.coaches
+                List.filter (\coach -> coach.id /= 0 ) model.coaches
               else
                 updatedCoaches.coaches
 
